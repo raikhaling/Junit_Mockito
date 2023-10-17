@@ -2,7 +2,9 @@ package com.example.testing.mapper;
 
 import com.example.testing.dto.PropertyDto;
 import com.example.testing.entity.Property;
+import org.springframework.stereotype.Component;
 
+@Component
 public class PropertyMapper {
 
     public Property convertDTOtoEntity(PropertyDto propertyDTO){

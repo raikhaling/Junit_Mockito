@@ -1,8 +1,9 @@
 package com.example.testing.entity;
 
+import jakarta.persistence.*;
 import lombok.*;
 
-import javax.persistence.*;
+
 
 @Entity
 @Table(name = "PROPERTY_TABLE")

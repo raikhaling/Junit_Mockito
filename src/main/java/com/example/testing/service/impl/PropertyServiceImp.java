@@ -17,8 +17,8 @@ import java.util.List;
 @Slf4j
 public class PropertyServiceImp implements PropertyService {
 
-    private PropertyRepository propertyRepository;
-    private PropertyMapper mapper;
+    private final PropertyRepository propertyRepository;
+    private final PropertyMapper mapper;
 
     @Override
     public PropertyDto saveProperty(PropertyDto propertyDTO) {

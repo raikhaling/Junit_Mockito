@@ -1,8 +1,9 @@
 package com.example.testing.dto;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.*;
 
-import javax.validation.constraints.Positive;
 
 @Getter
 @Setter
@@ -10,11 +11,11 @@ import javax.validation.constraints.Positive;
 @AllArgsConstructor
 public class CalculatorDto {
 
-    @NonNull
+    @NotNull
     @Positive
     private Double num1;
 
-    @NonNull
+    @NotNull
     @Positive
     private Double num2;
 }
