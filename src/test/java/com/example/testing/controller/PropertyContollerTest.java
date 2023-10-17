@@ -1,6 +1,7 @@
 package com.example.testing.controller;
 
 import com.example.testing.dto.PropertyDto;
+import com.example.testing.entity.Property;
 import com.example.testing.service.PropertyService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
@@ -130,14 +131,17 @@ public class PropertyContollerTest {
     }
 
     @Test
-    @Disabled
     @DisplayName("Test Success for delete Property Price")
     void deleteProperty() {
         log.info("Running deleteProperty test.");
-        PropertyDto dto = new PropertyDto();
 
         //when
+        ResponseEntity<Void> responseEntity = propertyContoller.deleteProperty(Mockito.anyLong());
 
+        //then
+        Assertions.assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
+        log.info(""+responseEntity.getStatusCode());
+        log.info(""+responseEntity.getStatusCodeValue());
 
         log.info("Test deleteProperty passed successfully.");
 

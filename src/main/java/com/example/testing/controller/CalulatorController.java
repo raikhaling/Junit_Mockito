@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("ap1/v1/calculator")
+@RequestMapping("api/v1/calculator")
 @Slf4j
 public class CalulatorController {
 
