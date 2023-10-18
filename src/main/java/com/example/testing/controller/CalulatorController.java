@@ -1,6 +1,7 @@
 package com.example.testing.controller;
 
 import com.example.testing.dto.CalculatorDto;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("api/v1/calculator")
 @Slf4j
+@Tag(name = "Calculator")
 public class CalulatorController {
 
     @GetMapping("/add")
