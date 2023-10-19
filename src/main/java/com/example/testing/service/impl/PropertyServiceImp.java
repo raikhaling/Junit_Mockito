@@ -8,6 +8,9 @@ import com.example.testing.repository.PropertyRepository;
 import com.example.testing.service.PropertyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,11 +36,14 @@ public class PropertyServiceImp implements PropertyService {
     }
 
     @Override
-    public List<PropertyDto> getAllProperties() {
+    public List<PropertyDto> getAllProperties(int page, int size) {
         try {
-            List<Property> propertyList = propertyRepository.findAll();
+            Pageable pageable = PageRequest.of(page-1, size);
+            Page<Property> pageResult =propertyRepository.findAll(pageable);
+            List<Property> propertyList = pageResult.getContent();
+
             return propertyList.stream()
-                    .map(property -> mapper.convertEntityToDTO(property))
+                    .map(mapper::convertEntityToDTO)
                     .toList();
         }catch (Exception e){
             log.error("Failed to get all the Property: "+e.getMessage());

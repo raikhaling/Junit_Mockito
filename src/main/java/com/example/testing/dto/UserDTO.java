@@ -1,5 +1,6 @@
 package com.example.testing.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
 public class UserDTO {
     private Long id;
 
+    @NotNull
     private String email;
 
     private String firstName;

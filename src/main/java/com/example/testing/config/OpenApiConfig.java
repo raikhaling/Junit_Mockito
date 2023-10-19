@@ -21,18 +21,18 @@ import io.swagger.v3.oas.annotations.servers.Server;
                         url = "some link"
                 ),
                 termsOfService = "Terms and Service"
-        ),
-        servers = {
-                @Server(
-                        description = "LOCAL ENV",
-                        url = "https://localhost:8080"
-                ),
-                @Server(
-                        description = "PROD ENV",
-                        url = ""
-                )
-
-        }
+        )
+//        ,
+//        servers = {
+//                @Server(
+//                        description = "LOCAL ENV",
+//                        url = "https://localhost:8080"
+//                ),
+//                @Server(
+//                        description = "PRODUCTION ENV",
+//                        url = "https://api.example.com"
+//                )
+//        }
 )
 public class OpenApiConfig {
 

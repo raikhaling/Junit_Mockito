@@ -5,9 +5,15 @@ import com.example.testing.service.PropertyService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +22,7 @@ import java.util.List;
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
 @Tag(name = "Property")
+@Validated
 public class PropertyContoller {
 
     private final PropertyService propertyService;
@@ -50,7 +57,7 @@ public class PropertyContoller {
             }
     )
     @PostMapping("/properties")
-    public ResponseEntity<PropertyDto> saveProperty(@RequestBody PropertyDto propertyDTO){
+    public ResponseEntity<PropertyDto> saveProperty(@RequestBody @Valid PropertyDto propertyDTO){
 
         propertyDTO = propertyService.saveProperty(propertyDTO);
 
@@ -62,23 +69,28 @@ public class PropertyContoller {
             summary = "This endpoint list all the properties"
     )
     @GetMapping("/properties")
-    public ResponseEntity<List<PropertyDto>> getAllProperties(){
+    public ResponseEntity<List<PropertyDto>> getAllProperties(
+            @RequestParam(required = false,defaultValue = "1") @Positive int page,
+            @RequestParam(required = false, defaultValue = "5") @Min(5) @Max(10) int size
+    ){
 
-        List<PropertyDto> propertyList = propertyService.getAllProperties();
+        List<PropertyDto> propertyList = propertyService.getAllProperties(page, size);
 
         return new ResponseEntity<>(propertyList,HttpStatus.OK);
     }
+
     @Operation(
             description = "This is a put endpoint for property",
             summary = "This endpoint updates a property"
     )
     @PutMapping("/properties/{propertyId}")
-    public ResponseEntity<PropertyDto> updateProperty(@RequestBody PropertyDto propertyDTO,
-                                                      @PathVariable Long propertyId){
+    public ResponseEntity<PropertyDto> updateProperty(@RequestBody @Valid PropertyDto propertyDTO,
+                                                      @PathVariable @Positive Long propertyId){
         propertyDTO = propertyService.updateProperty(propertyDTO, propertyId);
 
         return new ResponseEntity<>(propertyDTO, HttpStatus.OK);
     }
+
 
     @Operation(
             description = "This is a patch endpoint for property",
@@ -86,13 +98,14 @@ public class PropertyContoller {
     )
     @PatchMapping("/properties/update-description/{propertyId}")
     public ResponseEntity<PropertyDto> updatePropertyDescription(
-            @RequestBody PropertyDto propertyDTO,
-            @PathVariable Long propertyId){
+            @RequestBody @Valid PropertyDto propertyDTO,
+            @PathVariable @Positive Long propertyId){
 
         propertyDTO = propertyService.updatePropertyDescription(propertyDTO, propertyId);
 
         return new ResponseEntity<>(propertyDTO, HttpStatus.OK);
     }
+
 
     @Operation(
             description = "This is a patch endpoint for property",
@@ -100,20 +113,22 @@ public class PropertyContoller {
     )
     @PatchMapping("/properties/update-price/{propertyId}")
     public ResponseEntity<PropertyDto> updatePropertyPrice(
-            @RequestBody PropertyDto propertyDTO,
-            @PathVariable Long propertyId){
+            @RequestBody @Valid PropertyDto propertyDTO,
+            @PathVariable @Positive Long propertyId){
 
         propertyDTO = propertyService.updatePropertyPrice(propertyDTO, propertyId);
 
         return new ResponseEntity<>(propertyDTO, HttpStatus.OK);
     }
 
+
     @Operation(
             description = "This is a delete endpoint for property",
             summary = "This endpoint deletes a property"
     )
     @DeleteMapping("/properties/{propertyId}")
-    public ResponseEntity deleteProperty(@PathVariable Long propertyId){
+    public ResponseEntity<Void> deleteProperty(
+            @PathVariable @Positive(message = "Property id must be greater than 0") Long propertyId){
 
         propertyService.deleteProperty(propertyId);
 

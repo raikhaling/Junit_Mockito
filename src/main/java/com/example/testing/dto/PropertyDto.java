@@ -1,5 +1,6 @@
 package com.example.testing.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Getter
@@ -11,6 +12,7 @@ import lombok.*;
 public class PropertyDto{
 
     private Long id;
+    @NotNull
     private String title;
     private String description;
     private String ownerName;

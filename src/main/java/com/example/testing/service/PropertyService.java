@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface PropertyService {
     PropertyDto saveProperty(PropertyDto propertyDTO);
-    List<PropertyDto> getAllProperties();
+    List<PropertyDto> getAllProperties(int page, int size);
     PropertyDto updateProperty(PropertyDto propertyDTO, Long propertyId);
     PropertyDto updatePropertyDescription(@RequestBody PropertyDto propertyDTO, Long propertyId)
             throws BusinessException;

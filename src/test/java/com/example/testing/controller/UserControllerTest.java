@@ -1,10 +1,6 @@
 package com.example.testing.controller;
 import static org.hamcrest.Matchers.is;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-
 import com.example.testing.entity.User;
 import com.example.testing.exception.UserNotFoundException;
 import com.example.testing.service.impl.UserServiceImpl;
@@ -20,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -244,6 +241,27 @@ class UserControllerTest {
     }
 
     @Test
-    void delete() {
+    void testDeleteShouldReturn404NotFound() throws Exception {
+        Long userId = 123L;
+        String requestURI = END_POINT_PATH + "/" + userId;
+
+        Mockito.doThrow(UserNotFoundException.class).when(userService).delete(userId);
+
+        mockMvc.perform(delete(requestURI))
+                .andExpect(status().isNotFound())
+                .andDo(print());
+
+    }
+    @Test
+    void testDeleteShouldReturn202NoContent() throws Exception {
+        Long userId = 123L;
+        String requestURI = END_POINT_PATH + "/" + userId;
+
+        Mockito.doNothing().when(userService).delete(userId);
+
+        mockMvc.perform(delete(requestURI))
+                .andExpect(status().isNoContent())
+                .andDo(print());
+
     }
 }

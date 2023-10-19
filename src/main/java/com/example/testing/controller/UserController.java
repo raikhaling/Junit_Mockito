@@ -5,6 +5,7 @@ import com.example.testing.entity.User;
 import com.example.testing.exception.UserNotFoundException;
 import com.example.testing.service.UserService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -30,7 +31,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> get(@PathVariable("id") Long id) {
+    public ResponseEntity<?> get(@PathVariable("id") @Positive Long id) {
         try {
             User user = service.get(id);
             return ResponseEntity.ok(entityToDto(user));
@@ -53,7 +54,7 @@ public class UserController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@RequestBody @Valid User user,
-                                    @PathVariable Long id){
+                                    @PathVariable @Positive Long id){
         try {
             user.setId(id);
             User updatedUser = service.update(user);
@@ -67,9 +68,16 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
-        // ...
-        throw new UnsupportedOperationException();
+    public ResponseEntity<?> delete(@PathVariable @Positive Long id) {
+
+        try {
+            service.delete(id);
+            return ResponseEntity.noContent().build();
+
+        } catch (UserNotFoundException e) {
+
+            return ResponseEntity.notFound().build();
+        }
     }
 
     private UserDTO entityToDto(User entity) {
