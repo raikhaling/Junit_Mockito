@@ -1,6 +1,7 @@
 package com.example.testing.service.impl;
 
 import com.example.testing.entity.User;
+import com.example.testing.exception.BusinessException;
 import com.example.testing.exception.UserNotFoundException;
 import com.example.testing.repository.UserRepository;
 import com.example.testing.service.UserService;
@@ -46,6 +47,17 @@ public class UserServiceImpl implements UserService {
         }
 
         throw new UserNotFoundException();
+    }
+
+    @Override
+    public List<User> searchUserByName(String keyword) {
+
+        try {
+            List<User> users = repo.searchUser(keyword);
+            return users;
+        }catch (Exception e){
+            throw new BusinessException(e.getMessage());
+        }
     }
 
 }

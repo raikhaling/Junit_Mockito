@@ -13,4 +13,6 @@ public interface UserService {
 
      List<User> list();
      void delete(Long id) throws UserNotFoundException;
+
+     List<User> searchUserByName(String keyword);
 }

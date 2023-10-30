@@ -9,7 +9,10 @@ import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -31,6 +34,8 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
+    @Transactional(readOnly = true)
+    @Cacheable("user-cache")
     public ResponseEntity<?> get(@PathVariable("id") @Positive Long id) {
         try {
             User user = service.get(id);
@@ -68,6 +73,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
+    @CacheEvict("user-cache")
     public ResponseEntity<?> delete(@PathVariable @Positive Long id) {
 
         try {
@@ -89,4 +95,5 @@ public class UserController {
                         entity -> entityToDto(entity))
                 .collect(Collectors.toList());
     }
+
 }
